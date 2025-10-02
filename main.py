@@ -14,11 +14,8 @@ def PathTransformer():
     else:
         return corretPath
 
-def FindArgsInBrackets(_string):
-    if (_string.find('"').count() == 2):
-        return _string[1::-1].split()
-    else:
-        return ""
+def FindArgs(_string):
+    return _string.split()
 
 def main():
     isRunning = True
@@ -28,17 +25,20 @@ def main():
         path = PathTransformer()
         terminalInput = input(f"{username}@{hostname}:{path} ")
         command = terminalInput.split()[0]
+        args = terminalInput.split()[1:]
         match command:
             case "exit":
                 isRunning = False
             case "echo":
                 print(terminalInput[5:])
             case "ls":
-                print("ls")
+                print(*FindArgs("ls " + ' '.join(args)))
             case "cd":
-                print("cd <path>")
+                print(*FindArgs("cd " + ' '.join(args)))
             case _:
                 print("Command not found")
 
+
+#Во избежание ошибок при импорте в тесты
 if (__name__ == "__main__"):
     main()
